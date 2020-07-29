@@ -1,25 +1,26 @@
 .cardWrapper {
   // width: 200px;
   // height: 20vh;
-  // background: green;
-  margin: 40px;
+  // padding: 20px;
+  background: whitesmoke;
+  margin: 10px;
   border-radius: 20px;
   box-shadow: 10px 10px 5px -8px rgba(0, 0, 0, 0.75);
   border: 0.5px solid grey;
 
-  img {
-    border-radius: 20px 20px 0 0;
-    height: 320px;
-    width: 100%;
-  }
+  // img {
+  //   border-radius: 20px 20px 0 0;
+  //   height: 320px;
+  //   // width: 100%;
+  // }
 
-  .textSection {
-    padding: 10px;
-    text-align: center;
-    h2 {
-    }
+  // .textSection {
+  //   padding: 10px;
+  //   text-align: center;
+  //   h2 {
+  //   }
 
-    p {
-    }
-  }
+  //   p {
+  //   }
+  // }
 }

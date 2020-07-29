@@ -5,22 +5,43 @@ import CardBack from './CardBack/CardBack';
 
 export default class Card extends Component {
   state = {
-    cardToggle: true
+    cardToggle: null,
+    specificFilmDetails: null
   };
 
   setCardToggle = event => {
+    const { cardToggle } = this.state;
     console.log(event.target.parentNode);
-    this.setState({
-      cardToggle: !this.state.cardToggle
-    });
+    if (cardToggle === null) {
+      this.setState(
+        {
+          cardToggle: this.props.imdbID
+        },
+        this.getSpecificFilmDetails
+      );
+    } else {
+      this.setState({
+        cardToggle: null
+      });
+    }
   };
+
+  getSpecificFilmDetails = async () => {
+    const { cardToggle } = this.state;
+
+    const omdbApiResponse = await fetch(`http://www.omdbapi.com/?i=${cardToggle}&apikey=c9481b`);
+    const omdbApiData = await omdbApiResponse.json();
+    console.log(omdbApiData);
+    await this.setState({ specificFilmDetails: omdbApiData });
+  };
+
   render() {
-    const { poster, title, year } = this.props;
+    const { poster, title, year, imdbID } = this.props;
+    const { specificFilmDetails } = this.state;
 
     return (
-      <div onClick={this.setCardToggle}>
-        {/* <CardFront poster={poster} title={title} year={year} cardToggle={cardToggle} onClick={setCardToggle} /> */}
-        {this.state.cardToggle ? <CardFront poster={poster} title={title} year={year} /> : <CardBack />}
+      <div className={styles.cardWrapper} onClick={this.setCardToggle}>
+        {!this.state.cardToggle ? <CardFront poster={poster} title={title} year={year} imdbID={imdbID} /> : <CardBack imdbID={imdbID} specificFilmDetails={specificFilmDetails} />}
       </div>
     );
   }

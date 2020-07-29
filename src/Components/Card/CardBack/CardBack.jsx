@@ -3,7 +3,7 @@ import styles from './CardBack.module.scss';
 
 export default class CardBack extends Component {
   render() {
-    const { poster, title, year } = this.props;
+    const { poster, title, year, imdbID } = this.props;
     // console.log(poster, title, year);
     return (
       <div className={styles.cardBackWrapper}>

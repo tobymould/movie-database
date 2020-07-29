@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import styles from './Home.module.scss';
 
 import Card from '../../Components/Card';
-
+// http://www.omdbapi.com/?t=star&y=2001&plot=short&apikey=c9481b
 class App extends Component {
   state = {
     searchTerm: null,
     searchYear: null,
-    searchTermApiResponse: null
+    searchTermApiResponse: null,
+    searchIDs: null
+    // recentReleases: null
   };
 
   setSearchTerm = event => {
@@ -22,6 +24,14 @@ class App extends Component {
       });
     }
   };
+
+  // componentDidMount() {
+  //   const currentYear = new Date().getFullYear();
+
+  //   const omdbApiResponse = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&y=${currentYear}&apikey=c9481b`);
+  //   const omdbApiData = await omdbApiResponse.json();
+  //   await this.setState({ searchTermApiResponse: omdbApiData.Search });
+  // };
 
   getApiDataBySearchTerm = async event => {
     event.preventDefault();
@@ -39,7 +49,7 @@ class App extends Component {
 
     return searchTermApiResponse.map((movie, index) => {
       // console.log(movie.Year);
-      return <Card poster={movie.Poster} title={movie.Title} year={movie.Year} key={index} />;
+      return <Card poster={movie.Poster} title={movie.Title} year={movie.Year} imdbID={movie.imdbID} key={index} />;
     });
   };
 
