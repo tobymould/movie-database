@@ -8,8 +8,10 @@ export default class Card extends Component {
     return (
       <div className={styles.cardWrapper}>
         <img src={poster} alt="" />
-        <h3>{title}</h3>
-        <p>{year}</p>
+        <div className={styles.textSection}>
+          <h3>{title}</h3>
+          <p>{year}</p>
+        </div>
       </div>
     );
   }
