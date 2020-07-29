@@ -41,7 +41,7 @@ export default class Card extends Component {
 
     return (
       <div className={styles.cardWrapper} onClick={this.setCardToggle}>
-        {!this.state.cardToggle ? <CardFront poster={poster} title={title} year={year} imdbID={imdbID} /> : <CardBack imdbID={imdbID} specificFilmDetails={specificFilmDetails} />}
+        {!this.state.cardToggle ? <CardFront poster={poster} title={title} year={year} imdbID={imdbID} /> : specificFilmDetails ? <CardBack imdbID={imdbID} specificFilmDetails={specificFilmDetails} /> : null}
       </div>
     );
   }
