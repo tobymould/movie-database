@@ -6,34 +6,40 @@ import Card from '../../Components/Card';
 class App extends Component {
   state = {
     searchTerm: null,
+    searchYear: null,
     searchTermApiResponse: null
   };
 
   setSearchTerm = event => {
-    console.log(event.target.value);
-    this.setState({
-      searchTerm: event.target.value
-    });
+    console.log(event.target.type);
+    if (event.target.type == 'text') {
+      this.setState({
+        searchTerm: event.target.value
+      });
+    } else if (event.target.type == 'number') {
+      this.setState({
+        searchYear: event.target.value
+      });
+    }
   };
 
   getApiDataBySearchTerm = async event => {
     event.preventDefault();
-    const { searchTerm } = this.state;
+    const { searchTerm, searchYear } = this.state;
 
-    const omdbApiResponse = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=c9481b`);
+    const omdbApiResponse = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&y=${searchYear}&apikey=c9481b`);
     const omdbApiData = await omdbApiResponse.json();
-    // console.log(omdbApiData);
     await this.setState({ searchTermApiResponse: omdbApiData.Search });
-    // return null;
   };
 
   renderMoviesOnPage = () => {
     const { searchTermApiResponse } = this.state;
+    const { setCardToggle } = this;
     // console.log(searchTermApiResponse[1]);
 
-    return searchTermApiResponse.map(movie => {
-      console.log(movie.Year);
-      return <Card poster={movie.Poster} title={movie.Title} year={movie.Year} />;
+    return searchTermApiResponse.map((movie, index) => {
+      // console.log(movie.Year);
+      return <Card poster={movie.Poster} title={movie.Title} year={movie.Year} key={index} />;
     });
   };
 
@@ -43,9 +49,14 @@ class App extends Component {
       <div className={styles.appWrapper}>
         <form onSubmit={this.getApiDataBySearchTerm}>
           <label htmlFor="">
-            Please input your search term
+            Name of Film:
             <input type="text" name="search" onChange={this.setSearchTerm} />
           </label>
+          <label htmlFor="">
+            Year of Release:
+            <input type="number" name="year" onChange={this.setSearchTerm} />
+          </label>
+          <button onSubmit={this.getApiDataBySearchTerm}>click</button>
         </form>
         <section className={styles.cardList}>{searchTermApiResponse ? this.renderMoviesOnPage() : 'did not load'}</section>
       </div>
