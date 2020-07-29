@@ -6,7 +6,7 @@ import Card from './Components/Card';
 class App extends Component {
   state = {
     searchTerm: null,
-    searchTermApiResponse: {}
+    searchTermApiResponse: null
   };
 
   setSearchTerm = event => {
@@ -22,12 +22,23 @@ class App extends Component {
 
     const omdbApiResponse = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=c9481b`);
     const omdbApiData = await omdbApiResponse.json();
-    console.log(omdbApiData);
-    await this.setState({ searchTermApiResponse: omdbApiData });
+    // console.log(omdbApiData);
+    await this.setState({ searchTermApiResponse: omdbApiData.Search });
     // return null;
   };
 
+  renderMoviesOnPage = () => {
+    const { searchTermApiResponse } = this.state;
+    // console.log(searchTermApiResponse[1]);
+
+    searchTermApiResponse.map(movie => {
+      console.log(movie.Title);
+      return <Card poster={movie.Poster} title={movie.Title} year={movie.Year} />;
+    });
+  };
+
   render() {
+    const { searchTermApiResponse } = this.state;
     return (
       <div className={styles.appWrapper}>
         <form onSubmit={this.getApiDataBySearchTerm}>
@@ -36,7 +47,7 @@ class App extends Component {
             <input type="text" name="search" onChange={this.setSearchTerm} />
           </label>
         </form>
-        <Card />
+        {searchTermApiResponse ? this.renderMoviesOnPage() : null}
       </div>
     );
   }
